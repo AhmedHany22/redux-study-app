@@ -6,3 +6,6 @@ export function addBug(description) {
 export function removeBug(id) {
   return { type: actions.BUG_REMOVED, id };
 }
+export function resolveBug(id) {
+  return { type: actions.BUG_RESOLVED, id };
+}

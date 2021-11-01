@@ -1,5 +1,5 @@
 import store from "./store";
-import { addBug, removeBug } from "./actionsCreator";
+import { addBug, removeBug, resolveBug } from "./actionsCreator";
 
 const unsubscribe = store.subscribe(() =>
   console.log("State changed :", store.getState())
@@ -7,5 +7,6 @@ const unsubscribe = store.subscribe(() =>
 
 store.dispatch(addBug("Bug 1"));
 store.dispatch(addBug("Bug 2"));
-unsubscribe();
 store.dispatch(removeBug(1));
+store.dispatch(resolveBug(2));
+unsubscribe();
