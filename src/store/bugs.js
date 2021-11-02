@@ -1,32 +1,23 @@
-// -------------------- Actions Types --------------------
-const BUG_ADDED = "bugAdded";
-const BUG_REMOVED = "bugRemoved";
-const BUG_RESOLVED = "bugRsolved";
+import { createAction } from "@reduxjs/toolkit";
 
 // -------------------- Actions Creators --------------------
-export function addBug(description) {
-  return { type: BUG_ADDED, description };
-}
-export function removeBug(id) {
-  return { type: BUG_REMOVED, id };
-}
-export const resolveBug = (id) => {
-  return { type: BUG_RESOLVED, id };
-};
+export const ADD_BUG = createAction("bugAdded");
+export const REMOVE_BUG = createAction("bugRemoved");
+export const RESOLVE_BUG = createAction("bugRsolved");
 
 // -------------------- Reducer --------------------
 let lastId = 0;
 
 function reducer(state = [], action) {
   switch (action.type) {
-    case BUG_ADDED:
+    case ADD_BUG.type:
       return [
         ...state,
         { id: ++lastId, resolved: false, description: action.description },
       ];
-    case BUG_REMOVED:
+    case REMOVE_BUG.type:
       return state.filter((bug) => bug.id !== action.id);
-    case BUG_RESOLVED:
+    case RESOLVE_BUG.type:
       return state.map((bug) =>
         bug.id === action.id ? { ...bug, resolved: true } : bug
       );

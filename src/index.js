@@ -1,12 +1,12 @@
 import store from "./store/store";
-import { addBug, removeBug, resolveBug } from "./store/bugs";
+import { ADD_BUG, REMOVE_BUG, RESOLVE_BUG } from "./store/bugs";
 
 const unsubscribe = store.subscribe(() =>
   console.log("State changed :", store.getState())
 );
 
-store.dispatch(addBug("Bug 1"));
-store.dispatch(addBug("Bug 2"));
-store.dispatch(removeBug(1));
-store.dispatch(resolveBug(2));
+store.dispatch(ADD_BUG("Bug 1"));
+store.dispatch(ADD_BUG("Bug 2"));
+store.dispatch(REMOVE_BUG(1));
+store.dispatch(RESOLVE_BUG(2));
 unsubscribe();
