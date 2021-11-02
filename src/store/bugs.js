@@ -1,4 +1,4 @@
-import { createAction } from "@reduxjs/toolkit";
+import { createAction, createReducer } from "@reduxjs/toolkit";
 
 // -------------------- Actions Creators --------------------
 export const ADD_BUG = createAction("bugAdded");
@@ -8,25 +8,25 @@ export const RESOLVE_BUG = createAction("bugRsolved");
 // -------------------- Reducer --------------------
 let lastId = 0;
 
-function reducer(state = [], action) {
-  switch (action.type) {
-    case ADD_BUG.type:
-      return [
-        ...state,
-        { id: ++lastId, resolved: false, description: action.description },
-      ];
-    case REMOVE_BUG.type:
-      return state.filter((bug) => bug.id !== action.id);
-    case RESOLVE_BUG.type:
-      return state.map((bug) =>
-        bug.id === action.id ? { ...bug, resolved: true } : bug
-      );
-    default:
-      return state;
-  }
-}
-
-export default reducer;
+export default createReducer([], {
+  //--------------------
+  bugAdded: (state, action) => {
+    state.push({
+      id: ++lastId,
+      resolved: false,
+      description: action.payload.description,
+    });
+  },
+  //--------------------
+  bugRemoved: (state, action) => {
+    return state.filter((bug) => bug.id !== action.payload.id);
+  },
+  //--------------------
+  bugRsolved: (state, action) => {
+    const index = state.findIndex((bug) => bug.id === action.payload.id);
+    state[index].resolved = true;
+  },
+});
 
 // -------------------- Reducer Using If --------------------
 // function reducer(state, action) {
@@ -45,4 +45,21 @@ export default reducer;
 //     );
 //   }
 //   return state;
+// }
+// function reducer(state = [], action) {
+//   switch (action.type) {
+//     case ADD_BUG.type:
+//       return [
+//         ...state,
+//         { id: ++lastId, resolved: false, description: action.description },
+//       ];
+//     case REMOVE_BUG.type:
+//       return state.filter((bug) => bug.id !== action.id);
+//     case RESOLVE_BUG.type:
+//       return state.map((bug) =>
+//         bug.id === action.id ? { ...bug, resolved: true } : bug
+//       );
+//     default:
+//       return state;
+//   }
 // }
