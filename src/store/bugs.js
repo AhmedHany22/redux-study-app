@@ -1,32 +1,33 @@
-import { createAction, createReducer } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
-// -------------------- Actions Creators --------------------
-export const ADD_BUG = createAction("bugAdded");
-export const REMOVE_BUG = createAction("bugRemoved");
-export const RESOLVE_BUG = createAction("bugRsolved");
-
-// -------------------- Reducer --------------------
 let lastId = 0;
 
-export default createReducer([], {
-  //--------------------
-  bugAdded: (state, action) => {
-    state.push({
-      id: ++lastId,
-      resolved: false,
-      description: action.payload.description,
-    });
-  },
-  //--------------------
-  bugRemoved: (state, action) => {
-    return state.filter((bug) => bug.id !== action.payload.id);
-  },
-  //--------------------
-  bugRsolved: (state, action) => {
-    const index = state.findIndex((bug) => bug.id === action.payload.id);
-    state[index].resolved = true;
+const slice = createSlice({
+  name: "bugs",
+  initialState: [],
+  reducers: {
+    // --------------------
+    bugAdded: (state, action) => {
+      state.push({
+        id: ++lastId,
+        resolved: false,
+        description: action.payload.description,
+      });
+    },
+    //--------------------
+    bugRemoved: (state, action) => {
+      return state.filter((bug) => bug.id !== action.payload.id);
+    },
+    //--------------------
+    bugRsolved: (state, action) => {
+      const index = state.findIndex((bug) => bug.id === action.payload.id);
+      state[index].resolved = true;
+    },
   },
 });
+console.log(slice);
+export const { bugAdded, bugRemoved, bugRsolved } = slice.actions;
+export default slice.reducer;
 
 // -------------------- Reducer Using If --------------------
 // function reducer(state, action) {
@@ -63,3 +64,30 @@ export default createReducer([], {
 //       return state;
 //   }
 // }
+// -------------------- Actions Creators --------------------
+// export const ADD_BUG = createAction("bugAdded");
+// export const REMOVE_BUG = createAction("bugRemoved");
+// export const RESOLVE_BUG = createAction("bugRsolved");
+
+// -------------------- Reducer --------------------
+// let lastId = 0;
+
+// export default createReducer([], {
+//   //--------------------
+//   bugAdded: (state, action) => {
+//     state.push({
+//       id: ++lastId,
+//       resolved: false,
+//       description: action.payload.description,
+//     });
+//   },
+//   //--------------------
+//   bugRemoved: (state, action) => {
+//     return state.filter((bug) => bug.id !== action.payload.id);
+//   },
+//   //--------------------
+//   bugRsolved: (state, action) => {
+//     const index = state.findIndex((bug) => bug.id === action.payload.id);
+//     state[index].resolved = true;
+//   },
+// });
