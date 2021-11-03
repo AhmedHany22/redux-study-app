@@ -24,16 +24,28 @@ const slice = createSlice({
       const index = state.findIndex((bug) => bug.id === action.payload.id);
       state[index].resolved = true;
     },
+    bugAssignedToUser: (state, action) => {
+      const { bugId, userId } = action.payload;
+      const index = state.findIndex((bug) => bug.id === bugId);
+      state[index].userId = userId;
+    },
   },
 });
 
-export const { bugAdded, bugRemoved, bugRsolved } = slice.actions;
+export const { bugAdded, bugRemoved, bugRsolved, bugAssignedToUser } =
+  slice.actions;
 export default slice.reducer;
 
 export const selectUnresolved = createSelector(
   (state) => state.entities.bugs,
   (bugs) => bugs.filter((bug) => !bug.resolved)
 );
+
+export const selectByUser = (userId) =>
+  createSelector(
+    (state) => state.entities.bugs,
+    (bugs) => bugs.filter((bug) => bug.userId === userId)
+  );
 
 // -------------------- Reducer Using If --------------------
 // function reducer(state, action) {

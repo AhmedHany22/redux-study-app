@@ -3,8 +3,11 @@ import {
   bugAdded,
   bugRemoved,
   bugRsolved,
+  selectByUser,
   selectUnresolved,
+  bugAssignedToUser,
 } from "./store/bugs";
+import { userAdded, userRemoved } from "./store/users";
 import { projectAdded, projectRemoved } from "./store/projects";
 
 const unsubscribe = store.subscribe(() =>
@@ -20,7 +23,14 @@ store.dispatch(projectAdded({ name: "project 1" }));
 store.dispatch(projectAdded({ name: "project 2" }));
 store.dispatch(projectRemoved({ id: 1 }));
 
+store.dispatch(userAdded({ name: "Ahmed" }));
+store.dispatch(userAdded({ name: "Hany" }));
+store.dispatch(userRemoved({ id: 2 }));
+
+store.dispatch(bugAssignedToUser({ bugId: 2, userId: 2 }));
 const x = selectUnresolved(store.getState());
-console.log(x);
+const y = selectByUser(1)(store.getState());
+console.log("Unresolved : ", x);
+console.log("Asigned to user : ", y);
 
 unsubscribe();
