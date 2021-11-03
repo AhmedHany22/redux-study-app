@@ -36,5 +36,6 @@ const unsubscribe = store.subscribe(() =>
 store.dispatch(() => {
   console.log("hi");
 });
+store.dispatch({ type: "error", payload: { message: "An error occured" } });
 
 unsubscribe();
