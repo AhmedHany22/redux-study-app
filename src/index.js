@@ -1,5 +1,10 @@
 import store from "./store/store";
-import { bugAdded, bugRemoved, bugRsolved } from "./store/bugs";
+import {
+  bugAdded,
+  bugRemoved,
+  bugRsolved,
+  selectUnresolved,
+} from "./store/bugs";
 import { projectAdded, projectRemoved } from "./store/projects";
 
 const unsubscribe = store.subscribe(() =>
@@ -14,5 +19,8 @@ store.dispatch(bugRsolved({ id: 2 }));
 store.dispatch(projectAdded({ name: "project 1" }));
 store.dispatch(projectAdded({ name: "project 2" }));
 store.dispatch(projectRemoved({ id: 1 }));
+
+const x = selectUnresolved(store.getState());
+console.log(x);
 
 unsubscribe();
