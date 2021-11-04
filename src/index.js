@@ -33,10 +33,19 @@ const unsubscribe = store.subscribe(() =>
 // console.log("Unresolved : ", x);
 // console.log("Asigned to user : ", y);
 
-store.dispatch((dispatch, getState) => {
-  console.log(dispatch);
-  console.log("hi", getState());
+// store.dispatch((dispatch, getState) => {
+//   console.log(dispatch);
+//   console.log("hi", getState());
+// });
+// store.dispatch({ type: "error", payload: { message: "An error occured" } });
+
+store.dispatch({
+  type: "apiCallBegain",
+  payload: {
+    url: "/bugs",
+    onSuccess: "apiCallRecived",
+    onFailure: "apiCallFailed",
+  },
 });
-store.dispatch({ type: "error", payload: { message: "An error occured" } });
 
 unsubscribe();
