@@ -11,7 +11,7 @@ import { userAdded, userRemoved } from "./store/users";
 import { projectAdded, projectRemoved } from "./store/projects";
 import {
   apiCallBegain,
-  apiCallRecived,
+  apiCallSuccess,
   apiCallFailed,
 } from "./store/apiActions";
 
@@ -19,7 +19,7 @@ const unsubscribe = store.subscribe(() =>
   console.log("State changed :", store.getState())
 );
 
-// store.dispatch(bugAdded({ description: "Bug 1" }));
+store.dispatch(bugAdded({ description: "Bug 1" }));
 // store.dispatch(bugAdded({ description: "Bug 2" }));
 // store.dispatch(bugRemoved({ id: 1 }));
 // store.dispatch(bugRsolved({ id: 2 }));
@@ -47,7 +47,7 @@ const unsubscribe = store.subscribe(() =>
 store.dispatch(
   apiCallBegain({
     url: "/bugs",
-    onSuccess: apiCallRecived.type,
+    onSuccess: "bugs/bugsRecived",
   })
 );
 
