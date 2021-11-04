@@ -33,8 +33,9 @@ const unsubscribe = store.subscribe(() =>
 // console.log("Unresolved : ", x);
 // console.log("Asigned to user : ", y);
 
-store.dispatch(() => {
-  console.log("hi");
+store.dispatch((dispatch, getState) => {
+  console.log(dispatch);
+  console.log("hi", getState());
 });
 store.dispatch({ type: "error", payload: { message: "An error occured" } });
 
