@@ -6,46 +6,57 @@ let lastId = 0;
 
 const slice = createSlice({
   name: "bugs",
-  initialState: [],
+  initialState: { list: [], loader: false, lastInitialze: null },
   reducers: {
+    bugsRequested: (state, action) => {
+      state.loader = true;
+    },
     bugsRecived: (state, action) => {
-      state.push(...action.payload);
+      state.list = action.payload;
+      state.loader = false;
+    },
+    bugsRequestFailed: (state, action) => {
+      state.loader = false;
     },
     bugAdded: (state, action) => {
-      state.push({
+      state.list.push({
         id: ++lastId,
         resolved: false,
         description: action.payload.description,
       });
     },
     bugRemoved: (state, action) => {
-      return state.filter((bug) => bug.id !== action.payload.id);
+      return state.list.filter((bug) => bug.id !== action.payload.id);
     },
     bugRsolved: (state, action) => {
-      const index = state.findIndex((bug) => bug.id === action.payload.id);
-      state[index].resolved = true;
+      const index = state.list.findIndex((bug) => bug.id === action.payload.id);
+      state.list[index].resolved = true;
     },
     bugAssignedToUser: (state, action) => {
       const { bugId, userId } = action.payload;
-      const index = state.findIndex((bug) => bug.id === bugId);
-      state[index].userId = userId;
+      const index = state.list.findIndex((bug) => bug.id === bugId);
+      state.list[index].userId = userId;
     },
   },
 });
 
 export default slice.reducer;
 export const {
+  bugsRequested,
   bugsRecived,
   bugAdded,
   bugRemoved,
   bugRsolved,
   bugAssignedToUser,
+  bugsRequestFailed,
 } = slice.actions;
 
 export const loadBug = () =>
   apiCallBegain({
     url: "/bugs",
+    onStart: bugsRequested.type,
     onSuccess: bugsRecived.type,
+    onFailure: bugsRequestFailed.type,
   });
 export const selectUnresolved = createSelector(
   (state) => state.entities.bugs,
