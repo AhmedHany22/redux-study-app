@@ -1,5 +1,6 @@
 import store from "./store/store";
 import {
+  loadBug,
   bugAdded,
   bugRemoved,
   bugRsolved,
@@ -9,17 +10,12 @@ import {
 } from "./store/bugs";
 import { userAdded, userRemoved } from "./store/users";
 import { projectAdded, projectRemoved } from "./store/projects";
-import {
-  apiCallBegain,
-  apiCallSuccess,
-  apiCallFailed,
-} from "./store/apiActions";
 
 const unsubscribe = store.subscribe(() =>
   console.log("State changed :", store.getState())
 );
 
-store.dispatch(bugAdded({ description: "Bug 1" }));
+// store.dispatch(bugAdded({ description: "Bug 1" }));
 // store.dispatch(bugAdded({ description: "Bug 2" }));
 // store.dispatch(bugRemoved({ id: 1 }));
 // store.dispatch(bugRsolved({ id: 2 }));
@@ -44,11 +40,6 @@ store.dispatch(bugAdded({ description: "Bug 1" }));
 // });
 // store.dispatch({ type: "error", payload: { message: "An error occured" } });
 
-store.dispatch(
-  apiCallBegain({
-    url: "/bugs",
-    onSuccess: "bugs/bugsRecived",
-  })
-);
+store.dispatch(loadBug());
 
 unsubscribe();
