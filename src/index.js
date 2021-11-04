@@ -9,6 +9,11 @@ import {
 } from "./store/bugs";
 import { userAdded, userRemoved } from "./store/users";
 import { projectAdded, projectRemoved } from "./store/projects";
+import {
+  apiCallBegain,
+  apiCallRecived,
+  apiCallFailed,
+} from "./store/apiActions";
 
 const unsubscribe = store.subscribe(() =>
   console.log("State changed :", store.getState())
@@ -39,13 +44,11 @@ const unsubscribe = store.subscribe(() =>
 // });
 // store.dispatch({ type: "error", payload: { message: "An error occured" } });
 
-store.dispatch({
-  type: "apiCallBegain",
-  payload: {
+store.dispatch(
+  apiCallBegain({
     url: "/bugs",
-    onSuccess: "apiCallRecived",
-    onFailure: "apiCallFailed",
-  },
-});
+    onSuccess: apiCallRecived.type,
+  })
+);
 
 unsubscribe();
