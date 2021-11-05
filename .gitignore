@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules
+/sc
 /.pnp
 .pnp.js
 customStore.js
