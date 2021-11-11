@@ -1,3 +1,4 @@
+import moment from "moment";
 import { createSlice } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
 import { apiCallBegain } from "./apiActions";
@@ -6,7 +7,7 @@ let lastId = 0;
 
 const slice = createSlice({
   name: "bugs",
-  initialState: { list: [], loader: false, lastInitialze: null },
+  initialState: { list: [], loader: false, lastFetch: null },
   reducers: {
     bugsRequested: (state, action) => {
       state.loader = true;
@@ -14,6 +15,7 @@ const slice = createSlice({
     bugsRecived: (state, action) => {
       state.list = action.payload;
       state.loader = false;
+      state.lastFetch = Date.now();
     },
     bugsRequestFailed: (state, action) => {
       state.loader = false;
@@ -51,13 +53,20 @@ export const {
   bugsRequestFailed,
 } = slice.actions;
 
-export const loadBug = () =>
-  apiCallBegain({
-    url: "/bugs",
-    onStart: bugsRequested.type,
-    onSuccess: bugsRecived.type,
-    onFailure: bugsRequestFailed.type,
-  });
+export const loadBug = () => (dispatch, getState) => {
+  const { lastFetch } = getState().entities.bugs;
+  const diffInSec = moment().diff(moment(lastFetch), "seconds");
+  if (diffInSec < 10) return;
+  dispatch(
+    apiCallBegain({
+      url: "/bugs",
+      onStart: bugsRequested.type,
+      onSuccess: bugsRecived.type,
+      onFailure: bugsRequestFailed.type,
+    })
+  );
+};
+
 export const selectUnresolved = createSelector(
   (state) => state.entities.bugs,
   (bugs) => bugs.filter((bug) => !bug.resolved)
