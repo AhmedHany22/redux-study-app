@@ -2,6 +2,7 @@ import store from "./store/store";
 import {
   addBug,
   loadBug,
+  resolveBug,
   bugAdded,
   bugRemoved,
   bugRsolved,
@@ -42,7 +43,8 @@ const unsubscribe = store.subscribe(() =>
 // store.dispatch({ type: "error", payload: { message: "An error occured" } });
 
 store.dispatch(loadBug());
-store.dispatch(addBug({ description: "my bug" }));
+// store.dispatch(addBug({ description: "my bug" }));
+setTimeout(() => store.dispatch(resolveBug(1636632618821)), 2000);
 // setTimeout(() => store.dispatch(loadBug()), 11000);
 
 unsubscribe();
