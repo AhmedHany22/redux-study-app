@@ -67,6 +67,14 @@ export const loadBug = () => (dispatch, getState) => {
   );
 };
 
+export const addBug = (bug) =>
+  apiCallBegain({
+    url: "/bugs",
+    method: "post",
+    data: bug,
+    onSuccess: bugAdded.type,
+  });
+
 export const selectUnresolved = createSelector(
   (state) => state.entities.bugs,
   (bugs) => bugs.filter((bug) => !bug.resolved)

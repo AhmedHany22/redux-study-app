@@ -1,5 +1,6 @@
 import store from "./store/store";
 import {
+  addBug,
   loadBug,
   bugAdded,
   bugRemoved,
@@ -41,6 +42,7 @@ const unsubscribe = store.subscribe(() =>
 // store.dispatch({ type: "error", payload: { message: "An error occured" } });
 
 store.dispatch(loadBug());
-setTimeout(() => store.dispatch(loadBug()), 11000);
+store.dispatch(addBug({ description: "my bug" }));
+// setTimeout(() => store.dispatch(loadBug()), 11000);
 
 unsubscribe();
