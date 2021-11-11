@@ -81,6 +81,13 @@ export const resolveBug = (id) =>
     data: { resolved: true },
     onSuccess: bugRsolved.type,
   });
+export const assignBug = (bugId, userId) =>
+  apiCallBegain({
+    url: `/bugs/${bugId}`,
+    method: "patch",
+    data: { userId },
+    onSuccess: bugAssignedToUser.type,
+  });
 
 export const selectUnresolved = createSelector(
   (state) => state.entities.bugs,
