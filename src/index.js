@@ -45,7 +45,7 @@ const unsubscribe = store.subscribe(() =>
 
 store.dispatch(loadBug());
 // store.dispatch(addBug({ description: "my bug" }));
-setTimeout(() => store.dispatch(assignBug(4, 1)), 2000);
+setTimeout(() => store.dispatch(assignBug(4, 2)), 2000);
 // setTimeout(() => store.dispatch(resolveBug(1636632618821)), 2000);
 // setTimeout(() => store.dispatch(loadBug()), 11000);
 

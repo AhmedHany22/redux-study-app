@@ -35,7 +35,7 @@ const slice = createSlice({
       state.list[index].resolved = true;
     },
     bugAssignedToUser: (state, action) => {
-      const { bugId, userId } = action.payload;
+      const { id: bugId, userId } = action.payload;
       const index = state.list.findIndex((bug) => bug.id === bugId);
       state.list[index].userId = userId;
     },
